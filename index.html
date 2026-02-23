@@ -3,465 +3,1179 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wendz — The Future of Retail Media</title>
-<meta name="description" content="Wendz merges smart vending with precision AdTech. Reach your audience where they live, work, and shop — with the ultra-slim MOD-W1.">
+<title>Wendz — Precision Retail Media</title>
+<meta name="description" content="The world's most intelligent wall-mounted vending node. Smart retail meets precision AdTech.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@200;300;400;500;600;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black: #080808; --deep: #0d0d0d; --surface: #141414; --card: #1a1a1a;
-    --border: rgba(255,255,255,0.08); --amber: #f5a623;
-    --amber-glow: rgba(245,166,35,0.15); --amber-dim: rgba(245,166,35,0.6);
-    --white: #f0ece4; --muted: rgba(240,236,228,0.45); --text: #e8e2d8;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--black); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; cursor: none; }
-  ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-track { background: var(--black); }
-  ::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 2px; }
-  .cursor { width: 12px; height: 12px; background: var(--amber); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: transform 0.1s, width 0.3s, height 0.3s; }
-  .cursor-ring { width: 36px; height: 36px; border: 1px solid var(--amber-dim); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: all 0.15s ease; }
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; transition: background 0.4s, padding 0.4s; }
-  nav.scrolled { background: rgba(8,8,8,0.92); backdrop-filter: blur(20px); padding: 18px 60px; border-bottom: 1px solid var(--border); }
-  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 4px; color: var(--white); text-decoration: none; }
-  .logo span { color: var(--amber); }
-  .nav-links { display: flex; gap: 40px; list-style: none; }
-  .nav-links a { color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s; }
-  .nav-links a:hover { color: var(--white); }
-  .nav-cta { background: var(--amber); color: #000; padding: 12px 28px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; transition: background 0.3s, transform 0.2s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
-  .nav-cta:hover { background: #fff; transform: translateY(-1px); }
-  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 0 60px; position: relative; overflow: hidden; }
-  .hero-bg { position: absolute; inset: 0; z-index: 0; background: radial-gradient(ellipse 60% 70% at 70% 50%, rgba(245,166,35,0.07) 0%, transparent 70%), radial-gradient(ellipse 40% 60% at 20% 80%, rgba(245,166,35,0.04) 0%, transparent 60%); }
-  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); }
-  .orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
-  .orb-1 { width: 400px; height: 400px; background: rgba(245,166,35,0.06); top: -100px; right: -100px; }
-  .orb-2 { width: 300px; height: 300px; background: rgba(245,166,35,0.04); bottom: 0; left: 100px; }
-  .hero-left { position: relative; z-index: 2; padding-top: 80px; }
-  .hero-tag { display: inline-flex; align-items: center; gap: 10px; background: var(--amber-glow); border: 1px solid rgba(245,166,35,0.3); padding: 8px 18px; margin-bottom: 40px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--amber); font-weight: 500; }
-  .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--amber); border-radius: 50%; animation: blink 1.5s ease-in-out infinite; }
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
-  .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 8vw, 120px); line-height: 0.92; letter-spacing: 2px; color: var(--white); margin-bottom: 32px; }
-  .hero h1 em { font-family: 'DM Serif Display', serif; font-style: italic; color: var(--amber); }
-  .hero-sub { font-size: 16px; line-height: 1.7; color: var(--muted); max-width: 440px; margin-bottom: 48px; }
-  .hero-actions { display: flex; gap: 16px; align-items: center; }
-  .btn-primary { background: var(--amber); color: #000; padding: 16px 36px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; display: inline-block; transition: all 0.3s; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); }
-  .btn-primary:hover { background: var(--white); transform: translateY(-2px); box-shadow: 0 20px 60px rgba(245,166,35,0.3); }
-  .btn-ghost { color: var(--muted); font-size: 13px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; display: flex; align-items: center; gap: 10px; transition: color 0.3s; }
-  .btn-ghost::after { content: '→'; transition: transform 0.3s; }
-  .btn-ghost:hover { color: var(--white); }
-  .btn-ghost:hover::after { transform: translateX(4px); }
-  .hero-right { position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; padding-top: 80px; }
-  .device-frame { width: 280px; height: 520px; background: linear-gradient(145deg, #1e1e1e, #111); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; position: relative; box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 40px 100px rgba(0,0,0,0.7), 0 0 80px rgba(245,166,35,0.08); overflow: hidden; animation: float 6s ease-in-out infinite; }
-  @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-20px) rotate(-2deg); } }
-  .device-screen { position: absolute; inset: 12px; background: var(--black); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
-  .screen-header { background: var(--amber); padding: 16px; font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 3px; color: #000; text-align: center; }
-  .screen-body { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-  .screen-ad { background: linear-gradient(135deg, #1a1a1a, #222); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-size: 11px; color: var(--muted); letter-spacing: 1px; }
-  .screen-ad strong { display: block; color: var(--amber); font-size: 14px; font-weight: 700; margin-bottom: 4px; letter-spacing: 2px; }
-  .screen-ad--live { background: var(--amber-glow); border-color: rgba(245,166,35,0.3); }
-  .screen-metric { display: flex; gap: 8px; }
-  .metric-pill { flex: 1; background: var(--amber-glow); border: 1px solid rgba(245,166,35,0.2); border-radius: 6px; padding: 10px 8px; text-align: center; font-size: 10px; letter-spacing: 1px; color: var(--amber); }
-  .metric-pill span { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; }
-  .stats-bar { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 40px 60px; display: grid; grid-template-columns: repeat(4, 1fr); }
-  .stat-item { padding: 0 40px; border-right: 1px solid var(--border); text-align: center; }
-  .stat-item:first-child { padding-left: 0; }
-  .stat-item:last-child { border-right: none; }
-  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 56px; letter-spacing: 2px; color: var(--amber); line-height: 1; margin-bottom: 6px; }
-  .stat-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
-  .marquee-strip { background: var(--amber); overflow: hidden; padding: 14px 0; }
-  .marquee-inner { display: flex; animation: marquee 20s linear infinite; width: max-content; }
-  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .marquee-item { display: flex; align-items: center; gap: 20px; padding: 0 20px; font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 4px; color: #000; white-space: nowrap; }
-  .marquee-dot { width: 6px; height: 6px; background: rgba(0,0,0,0.3); border-radius: 50%; flex-shrink: 0; }
-  section { padding: 120px 60px; position: relative; }
-  .section-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--amber); font-weight: 500; margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
-  .section-label::before { content: ''; width: 40px; height: 1px; background: var(--amber); }
-  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px, 5vw, 80px); line-height: 0.95; letter-spacing: 1px; color: var(--white); }
-  .section-title em { font-family: 'DM Serif Display', serif; font-style: italic; color: var(--amber); }
-  .how-section { background: var(--deep); }
-  .how-header { max-width: 500px; margin-bottom: 80px; }
-  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
-  .step { background: var(--deep); padding: 48px 36px; position: relative; overflow: hidden; transition: background 0.4s; }
-  .step::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--amber); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
-  .step:hover { background: var(--card); }
-  .step:hover::before { transform: scaleX(1); }
-  .step-num { font-family: 'Bebas Neue', sans-serif; font-size: 80px; letter-spacing: 2px; color: rgba(245,166,35,0.1); line-height: 1; margin-bottom: 24px; transition: color 0.4s; }
-  .step:hover .step-num { color: rgba(245,166,35,0.2); }
-  .step-icon { font-size: 28px; margin-bottom: 20px; }
-  .step h3 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 12px; letter-spacing: 0.5px; }
-  .step p { font-size: 14px; line-height: 1.7; color: var(--muted); }
-  .audience-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); padding: 0; }
-  .audience-panel { padding: 80px 60px; position: relative; overflow: hidden; }
-  .audience-panel.brands { background: var(--deep); }
-  .audience-panel.partners { background: var(--black); }
-  .audience-panel::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--amber); transform: scaleX(0); transform-origin: left; transition: transform 0.6s ease; }
-  .audience-panel:hover::after { transform: scaleX(1); }
-  .panel-badge { display: inline-block; padding: 6px 16px; border: 1px solid var(--border); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 32px; }
-  .panel-price { font-family: 'Bebas Neue', sans-serif; font-size: 64px; letter-spacing: 2px; color: var(--amber); line-height: 1; margin-bottom: 8px; }
-  .panel-price-label { font-size: 12px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 40px; }
-  .panel-title { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--white); line-height: 1.2; margin-bottom: 20px; }
-  .panel-title em { font-style: italic; color: var(--amber); }
-  .panel-desc { font-size: 15px; line-height: 1.7; color: var(--muted); margin-bottom: 36px; }
-  .feature-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 48px; }
-  .feature-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 14px; color: var(--text); line-height: 1.5; }
-  .feature-list li::before { content: '→'; color: var(--amber); font-size: 13px; margin-top: 1px; flex-shrink: 0; }
+/* === TOKENS === */
+:root {
+  --pearl:   #f7f5f0;
+  --ivory:   #ede9e1;
+  --stone:   #e4dfd5;
+  --warm:    #d4cdc0;
+  --ash:     #b8b0a4;
+  --slate:   #6b6560;
+  --ink:     #282420;
+  --deep:    #1a1714;
+  --gold:    #9a7a28;
+  --gold-hi: #c4a042;
+  --gold-lo: #6e5618;
+  --gold-bg: rgba(154,122,40,0.07);
+  --gold-bd: rgba(154,122,40,0.2);
+  --shadow:  rgba(28,24,20,0.08);
+  --shadow2: rgba(28,24,20,0.15);
+  --f-serif: 'Libre Baskerville', Georgia, serif;
+  --f-sans:  'Outfit', sans-serif;
+  --f-mono:  'DM Mono', monospace;
+  --ease:    cubic-bezier(0.16,1,0.3,1);
+}
 
-  /* LOCATIONS — Clean 3x2 grid */
-  .locations-section { background: var(--surface); }
-  .locations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin-top: 60px; }
-  .location-card { background: var(--surface); padding: 56px 40px; text-align: center; transition: background 0.3s; position: relative; overflow: hidden; }
-  .location-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--amber), transparent); transform: scaleX(0); transition: transform 0.4s; }
-  .location-card:hover { background: var(--card); }
-  .location-card:hover::after { transform: scaleX(1); }
-  .location-emoji { font-size: 36px; margin-bottom: 20px; }
-  .location-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--white); letter-spacing: 1px; margin-bottom: 10px; }
-  .location-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+/* === RESET === */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--pearl);
+  color:var(--ink);
+  font-family:var(--f-sans);
+  font-weight:300;
+  overflow-x:hidden;
+  cursor:none;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
 
-  .testimonials-section { background: var(--black); overflow: hidden; }
-  .testimonials-overflow { overflow: hidden; margin: 0 -60px; }
-  .testimonials-track { display: flex; gap: 24px; margin-top: 60px; animation: slide 30s linear infinite; width: max-content; }
-  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .testimonial-card { width: 380px; flex-shrink: 0; background: var(--surface); border: 1px solid var(--border); padding: 40px; position: relative; }
-  .testimonial-card::before { content: '"'; font-family: 'DM Serif Display', serif; font-size: 100px; color: var(--amber); opacity: 0.15; position: absolute; top: 10px; left: 24px; line-height: 1; }
-  .stars { color: var(--amber); font-size: 14px; letter-spacing: 2px; margin-bottom: 20px; }
-  .testimonial-text { font-size: 15px; line-height: 1.7; color: var(--text); margin-bottom: 28px; position: relative; z-index: 1; }
-  .testimonial-author { display: flex; align-items: center; gap: 14px; }
-  .author-avatar { width: 40px; height: 40px; background: var(--amber-glow); border: 1px solid rgba(245,166,35,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--amber); }
-  .author-name { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--white); }
-  .author-title { font-size: 12px; color: var(--muted); }
-  .mission-section { background: var(--amber); color: #000; padding: 100px 60px; position: relative; overflow: hidden; }
-  .mission-section::before { content: 'WENDZ'; font-family: 'Bebas Neue', sans-serif; font-size: 300px; color: rgba(0,0,0,0.05); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none; letter-spacing: 20px; }
-  .mission-inner { max-width: 900px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
-  .mission-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: rgba(0,0,0,0.5); margin-bottom: 24px; font-weight: 500; }
-  .mission-text { font-family: 'DM Serif Display', serif; font-size: clamp(36px, 4vw, 60px); font-style: italic; color: #000; line-height: 1.2; margin-bottom: 24px; }
-  .mission-body { font-size: 17px; color: rgba(0,0,0,0.6); line-height: 1.7; max-width: 600px; margin: 0 auto; }
-  .mission-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 60px; text-align: left; }
-  .pillar { border-top: 2px solid rgba(0,0,0,0.15); padding-top: 24px; }
-  .pillar-num { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: rgba(0,0,0,0.2); line-height: 1; margin-bottom: 12px; }
-  .pillar h4 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: #000; margin-bottom: 8px; }
-  .pillar p { font-size: 13px; line-height: 1.6; color: rgba(0,0,0,0.6); }
-  .contact-section { background: var(--deep); display: grid; grid-template-columns: 1fr 1fr; padding: 0; }
-  .contact-left { padding: 100px 60px; border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; }
-  .contact-right { padding: 100px 60px; }
-  .contact-info-items { margin-top: 48px; display: flex; flex-direction: column; gap: 24px; }
-  .contact-info-item { display: flex; flex-direction: column; gap: 4px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
-  .contact-info-item:last-child { border-bottom: none; }
-  .info-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--amber); font-weight: 500; }
-  .info-value { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 500; color: var(--white); text-decoration: none; transition: color 0.3s; }
-  .info-value:hover { color: var(--amber); }
-  .form-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 2px; color: var(--white); margin-bottom: 40px; line-height: 1; }
-  .form-title em { font-family: 'DM Serif Display', serif; font-style: italic; color: var(--amber); }
-  .form-group { margin-bottom: 20px; }
-  .form-group label { display: block; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
-  .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--white); padding: 14px 18px; font-family: 'DM Sans', sans-serif; font-size: 14px; transition: border-color 0.3s, background 0.3s; outline: none; -webkit-appearance: none; }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--amber); background: rgba(245,166,35,0.03); }
-  .form-group select option { background: var(--surface); }
-  .form-group textarea { resize: none; height: 100px; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .form-submit { width: 100%; background: var(--amber); color: #000; border: none; padding: 18px 36px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: none; transition: all 0.3s; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); margin-top: 8px; }
-  .form-submit:hover { background: var(--white); transform: translateY(-2px); }
-  .form-success { display: none; text-align: center; padding: 40px; background: var(--amber-glow); border: 1px solid rgba(245,166,35,0.3); }
-  .form-success h3 { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 2px; color: var(--amber); margin-bottom: 8px; }
-  .form-success p { font-size: 14px; color: var(--muted); }
-  footer { background: var(--black); border-top: 1px solid var(--border); padding: 60px; }
-  .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
-  .footer-brand p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-top: 16px; max-width: 280px; }
-  .footer-col h5 { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--amber); margin-bottom: 20px; font-weight: 500; }
-  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-  .footer-col a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color 0.3s; }
-  .footer-col a:hover { color: var(--white); }
-  .footer-bottom { border-top: 1px solid var(--border); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; }
-  .footer-copy { font-size: 12px; color: var(--muted); letter-spacing: 1px; }
-  .footer-tagline { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 4px; color: rgba(245,166,35,0.4); }
-  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; }
+/* === GRAIN === */
+body::after{
+  content:'';
+  position:fixed;inset:0;z-index:9990;
+  pointer-events:none;opacity:0.022;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
 
-  @media (max-width: 1024px) {
-    nav { padding: 20px 30px; } nav.scrolled { padding: 14px 30px; } .nav-links { display: none; }
-    .hero { grid-template-columns: 1fr; padding: 120px 30px 60px; } .hero-right { display: none; }
-    section { padding: 80px 30px; }
-    .stats-bar { grid-template-columns: 1fr 1fr; padding: 0; gap: 1px; background: var(--border); }
-    .stat-item { background: var(--black); border-right: none; padding: 30px 20px; }
-    .steps-grid { grid-template-columns: 1fr 1fr; }
-    .audience-section { grid-template-columns: 1fr; } .audience-panel { padding: 60px 30px; }
-    .locations-grid { grid-template-columns: repeat(2, 1fr); }
-    .mission-section { padding: 80px 30px; } .mission-pillars { grid-template-columns: 1fr; }
-    .contact-section { grid-template-columns: 1fr; }
-    .contact-left { padding: 60px 30px; border-right: none; border-bottom: 1px solid var(--border); }
-    .contact-right { padding: 60px 30px; }
-    .footer-inner { grid-template-columns: 1fr 1fr; gap: 40px; } footer { padding: 40px 30px; }
-    .testimonials-overflow { margin: 0 -30px; }
-  }
-  @media (max-width: 600px) {
-    .steps-grid { grid-template-columns: 1fr; } .locations-grid { grid-template-columns: 1fr 1fr; }
-    .form-row { grid-template-columns: 1fr; } .footer-inner { grid-template-columns: 1fr; }
-    .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
-    .mission-section::before { font-size: 120px; }
-  }
+/* === CURSOR === */
+#cur{
+  position:fixed;z-index:9999;pointer-events:none;
+  width:8px;height:8px;
+  background:var(--gold);border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:width .25s var(--ease),height .25s var(--ease),background .2s;
+}
+#cur.big{width:44px;height:44px;background:rgba(154,122,40,0.12);}
+#cur-ring{
+  position:fixed;z-index:9998;pointer-events:none;
+  width:28px;height:28px;
+  border:1px solid rgba(154,122,40,0.35);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:width .4s var(--ease),height .4s var(--ease);
+}
+
+/* === NAV === */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:28px 72px;
+  transition:padding .4s var(--ease),background .4s,box-shadow .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+nav.stuck{
+  padding:14px 72px;
+  background:rgba(247,245,240,0.92);
+  backdrop-filter:blur(20px) saturate(120%);
+  -webkit-backdrop-filter:blur(20px) saturate(120%);
+  border-bottom-color:var(--stone);
+  box-shadow:0 1px 0 var(--stone),0 4px 32px var(--shadow);
+}
+.nav-logo{
+  font-family:var(--f-serif);
+  font-size:20px;font-weight:700;
+  letter-spacing:1px;
+  color:var(--deep);
+}
+.nav-logo em{font-style:normal;color:var(--gold);}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none;}
+.nav-links a{
+  font-family:var(--f-sans);font-size:11px;font-weight:400;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--slate);transition:color .25s;
+}
+.nav-links a:hover{color:var(--ink);}
+.nav-btn{
+  font-family:var(--f-sans);font-size:10px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--pearl)!important;
+  background:var(--ink);
+  padding:11px 26px;
+  border:1px solid var(--ink);
+  transition:background .25s,color .25s,border-color .25s;
+}
+.nav-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--pearl)!important;}
+
+/* === HERO === */
+.hero{
+  position:relative;min-height:100vh;
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding:130px 72px 90px;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 50% 60% at 95% 50%,rgba(154,122,40,0.06) 0%,transparent 65%),
+    radial-gradient(ellipse 30% 40% at 5% 85%,rgba(154,122,40,0.04) 0%,transparent 55%);
+}
+/* Subtle grid lines */
+.hero::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(28,24,20,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(28,24,20,0.04) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,black 0%,transparent 100%);
+}
+
+/* Watermark */
+.hero-wm{
+  position:absolute;right:-30px;bottom:-60px;
+  font-family:var(--f-serif);
+  font-size:clamp(200px,24vw,380px);
+  font-weight:700;font-style:italic;
+  color:rgba(28,24,20,0.03);
+  line-height:1;pointer-events:none;user-select:none;
+  letter-spacing:-8px;
+}
+
+.hero-left{position:relative;z-index:2;}
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--f-mono);font-size:10px;font-weight:300;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:32px;
+}
+.hero-tag::before{
+  content:'';display:inline-block;
+  width:32px;height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+}
+
+.hero-h{
+  font-family:var(--f-serif);
+  font-size:clamp(50px,5.5vw,88px);
+  font-weight:700;line-height:1.0;
+  letter-spacing:-1.5px;
+  color:var(--deep);margin-bottom:10px;
+}
+.hero-h em{font-style:italic;color:var(--gold);}
+.hero-h2{
+  font-family:var(--f-serif);
+  font-size:clamp(50px,5.5vw,88px);
+  font-weight:400;font-style:italic;
+  line-height:1.0;letter-spacing:-1.5px;
+  color:transparent;
+  -webkit-text-stroke:1.5px rgba(40,36,32,0.18);
+  margin-bottom:44px;
+}
+
+.hero-p{
+  font-size:16px;line-height:1.85;font-weight:300;
+  color:var(--slate);max-width:420px;margin-bottom:48px;
+}
+
+.hero-actions{display:flex;align-items:center;gap:28px;}
+.btn-dark{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--f-sans);font-size:10px;font-weight:600;
+  letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--pearl);background:var(--deep);
+  padding:17px 38px;border:1px solid var(--deep);
+  transition:background .25s,border-color .25s;
+  position:relative;overflow:hidden;
+}
+.btn-dark::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);
+  transform:translateX(-100%);transition:transform .5s;
+}
+.btn-dark:hover{background:var(--gold);border-color:var(--gold);}
+.btn-dark:hover::after{transform:translateX(100%);}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--f-sans);font-size:10px;font-weight:400;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--slate);transition:color .25s,gap .25s;
+}
+.btn-outline:hover{color:var(--ink);gap:20px;}
+.btn-outline-line{display:inline-block;width:26px;height:1px;background:currentColor;transition:width .25s;}
+.btn-outline:hover .btn-outline-line{width:40px;}
+
+/* Stats under headline */
+.hero-stats{
+  display:flex;gap:0;margin-top:64px;
+  padding-top:32px;border-top:1px solid var(--stone);
+}
+.h-stat{padding-right:40px;margin-right:40px;border-right:1px solid var(--stone);}
+.h-stat:last-child{border-right:none;}
+.h-stat-n{
+  font-family:var(--f-serif);font-size:36px;font-weight:700;
+  color:var(--gold);line-height:1;margin-bottom:5px;letter-spacing:-1px;
+}
+.h-stat-l{
+  font-family:var(--f-mono);font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--ash);
+}
+
+/* Hero right — editorial device visual */
+.hero-right{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;}
+.hero-visual-wrap{position:relative;width:340px;height:460px;}
+
+/* device */
+.hv-device{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:180px;height:280px;
+  background:var(--deep);
+  border:1px solid rgba(154,122,40,0.3);
+  border-radius:14px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05),
+    0 32px 64px rgba(28,24,20,0.3),
+    0 0 40px rgba(154,122,40,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+  overflow:hidden;
+  animation:dev-float 5s ease-in-out infinite;
+}
+@keyframes dev-float{
+  0%,100%{transform:translate(-50%,-50%) rotate(-1.5deg) translateY(0);}
+  50%{transform:translate(-50%,-50%) rotate(1.5deg) translateY(-18px);}
+}
+.hv-screen{
+  position:absolute;inset:10px;
+  background:linear-gradient(150deg,#1e1b16,#0e0c0a);
+  border-radius:7px;
+  display:flex;flex-direction:column;
+  padding:14px 12px;gap:8px;
+}
+.hv-line{
+  height:5px;border-radius:2px;
+  background:linear-gradient(90deg,var(--gold-hi),rgba(154,122,40,0.1));
+  animation:hv-pulse 2.4s ease-in-out infinite alternate;
+}
+.hv-line:nth-child(1){width:80%;animation-delay:0s;}
+.hv-line:nth-child(2){width:55%;animation-delay:.35s;opacity:.7;}
+.hv-line:nth-child(3){width:70%;animation-delay:.7s;}
+.hv-line:nth-child(4){width:40%;animation-delay:1.05s;opacity:.6;}
+.hv-line:nth-child(5){width:64%;animation-delay:.2s;}
+@keyframes hv-pulse{from{opacity:.3}to{opacity:1}}
+.hv-badge{
+  position:absolute;bottom:-13px;left:50%;
+  transform:translateX(-50%);
+  background:var(--gold);color:var(--pearl);
+  font-family:var(--f-mono);font-size:8px;font-weight:400;
+  letter-spacing:3px;text-transform:uppercase;
+  padding:5px 14px;white-space:nowrap;
+}
+.hv-side{
+  position:absolute;left:-7px;top:50%;transform:translateY(-50%);
+  width:7px;height:110px;
+  background:linear-gradient(180deg,#2a2520,#3a3028,#2a2520);
+  border:1px solid rgba(154,122,40,0.15);border-right:none;
+  border-radius:3px 0 0 3px;
+}
+
+/* Rings */
+.hv-ring{
+  position:absolute;top:50%;left:50%;
+  border-radius:50%;
+  border:1px solid rgba(154,122,40,0.08);
+  transform:translate(-50%,-50%);
+  animation:ring-spin linear infinite;
+}
+.hv-r1{width:220px;height:220px;animation-duration:20s;}
+.hv-r2{width:310px;height:310px;animation-duration:28s;animation-direction:reverse;border-style:dashed;border-color:rgba(154,122,40,0.05);}
+@keyframes ring-spin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+.hv-r1::before{
+  content:'';position:absolute;top:-3px;left:50%;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--gold);transform:translateX(-50%);
+  box-shadow:0 0 8px var(--gold);
+}
+
+/* Floating labels */
+.hv-label{
+  position:absolute;
+  background:var(--pearl);border:1px solid var(--stone);
+  padding:8px 14px;
+  box-shadow:0 4px 20px var(--shadow);
+}
+.hv-label-t{font-family:var(--f-mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ash);margin-bottom:3px;}
+.hv-label-v{font-family:var(--f-serif);font-size:15px;font-weight:700;color:var(--gold);}
+.hv-l1{top:8%;right:-10px;animation:lbl-float 4s ease-in-out infinite;}
+.hv-l2{bottom:15%;left:-20px;animation:lbl-float 4s ease-in-out infinite;animation-delay:1.5s;}
+@keyframes lbl-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* Scroll cue */
+.hero-scroll{
+  position:absolute;bottom:36px;left:72px;
+  display:flex;align-items:center;gap:14px;
+  font-family:var(--f-mono);font-size:9px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--ash);z-index:2;
+}
+.hero-scroll-bar{width:52px;height:1px;background:var(--stone);overflow:hidden;position:relative;}
+.hero-scroll-bar::after{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:var(--gold);animation:scroll-sweep 2.6s ease-in-out infinite;
+}
+@keyframes scroll-sweep{0%{left:-100%}50%{left:0}100%{left:100%}}
+
+/* === TICKER === */
+.ticker{
+  background:var(--deep);overflow:hidden;
+  border-top:1px solid rgba(255,255,255,0.04);
+  border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.ticker-inner{display:flex;width:max-content;animation:tick 30s linear infinite;}
+.ticker-inner:hover{animation-play-state:paused;}
+.t-item{
+  display:inline-flex;align-items:center;gap:24px;
+  font-family:var(--f-mono);font-size:9.5px;font-weight:300;
+  letter-spacing:3.5px;text-transform:uppercase;
+  color:rgba(247,245,240,0.45);padding:14px 44px;white-space:nowrap;
+}
+.t-dot{width:3px;height:3px;border-radius:50%;background:rgba(154,122,40,0.5);flex-shrink:0;}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* === SECTION HELPERS === */
+.s{padding:130px 72px;}
+.s-sm{padding:96px 72px;}
+
+.s-label{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--f-mono);font-size:9.5px;font-weight:300;
+  letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:16px;
+}
+.s-label-bar{width:28px;height:1px;background:var(--gold);}
+
+.s-title{
+  font-family:var(--f-serif);
+  font-size:clamp(40px,4.5vw,70px);
+  font-weight:700;line-height:.97;
+  letter-spacing:-1px;color:var(--deep);
+}
+.s-title em{font-style:italic;color:var(--gold);}
+.s-title .ghost{
+  color:transparent;
+  -webkit-text-stroke:1px rgba(40,36,32,0.15);
+}
+
+.thin-rule{height:1px;background:var(--stone);}
+.gold-rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.25;}
+
+/* === HOW IT WORKS === */
+.how{background:var(--ivory);}
+.how-top{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:end;margin-bottom:80px;}
+.how-desc{font-size:15px;line-height:1.88;color:var(--slate);max-width:380px;}
+
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--stone);}
+.step{
+  padding:48px 30px 40px;border-right:1px solid var(--stone);
+  position:relative;overflow:hidden;background:var(--ivory);
+  transition:background .35s;
+}
+.step:last-child{border-right:none;}
+.step::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s var(--ease);
+}
+.step:hover{background:var(--pearl);}
+.step:hover::before{transform:scaleX(1);}
+.step-n{
+  font-family:var(--f-serif);font-size:88px;font-weight:700;
+  line-height:.9;color:rgba(40,36,32,0.04);
+  margin-bottom:22px;user-select:none;transition:color .3s;
+}
+.step:hover .step-n{color:rgba(154,122,40,0.07);}
+.step-icon{font-size:22px;margin-bottom:16px;display:block;}
+.step-t{font-family:var(--f-sans);font-size:14px;font-weight:600;margin-bottom:10px;color:var(--ink);}
+.step-d{font-size:13px;line-height:1.75;color:var(--slate);}
+.step-arr{
+  position:absolute;bottom:24px;right:24px;
+  font-size:15px;color:var(--gold);opacity:0;
+  transform:translate(-6px,6px);transition:opacity .3s,transform .3s;
+}
+.step:hover .step-arr{opacity:1;transform:translate(0,0);}
+
+/* === NUMBERS === */
+.nums{
+  background:var(--deep);
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.num-item{
+  padding:60px 48px;border-right:1px solid rgba(255,255,255,0.06);
+  position:relative;overflow:hidden;transition:background .3s;
+}
+.num-item:last-child{border-right:none;}
+.num-item::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  opacity:0;transition:opacity .4s;
+}
+.num-item:hover{background:rgba(255,255,255,0.02);}
+.num-item:hover::before{opacity:1;}
+.n-val{
+  font-family:var(--f-serif);
+  font-size:clamp(48px,5vw,76px);font-weight:700;
+  color:var(--gold);line-height:1;letter-spacing:-2px;margin-bottom:10px;
+}
+.n-val sup{font-size:.4em;vertical-align:super;letter-spacing:0;}
+.n-label{font-size:13px;line-height:1.6;color:rgba(247,245,240,0.4);max-width:180px;}
+
+/* === DUAL === */
+.dual{background:var(--pearl);}
+.dual-header{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:60px;}
+.dual-header-p{font-size:14px;line-height:1.85;color:var(--slate);align-self:end;}
+.dual-cards{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--stone);}
+
+/* LIGHT card */
+.dc{
+  padding:72px 56px;min-height:600px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  position:relative;overflow:hidden;
+}
+.dc-light{background:var(--ivory);}
+.dc-dark{background:var(--deep);}
+.dc+.dc{border-left:1px solid var(--stone);}
+.dc-dark+.dc, .dc+.dc-dark{border-left-color:rgba(255,255,255,0.06);}
+
+/* Corner marks */
+.dc::before,.dc::after{content:'';position:absolute;width:18px;height:18px;}
+.dc::before{top:20px;left:20px;border-top:1px solid;border-left:1px solid;}
+.dc::after{bottom:20px;right:20px;border-bottom:1px solid;border-right:1px solid;}
+.dc-light::before,.dc-light::after{border-color:var(--stone);}
+.dc-dark::before,.dc-dark::after{border-color:rgba(154,122,40,0.3);}
+
+.dc-ghost{
+  position:absolute;top:-20px;right:-10px;
+  font-family:var(--f-serif);font-size:200px;font-weight:700;
+  line-height:1;pointer-events:none;user-select:none;
+}
+.dc-light .dc-ghost{color:rgba(40,36,32,0.03);}
+.dc-dark .dc-ghost{color:rgba(255,255,255,0.02);}
+
+.dc-tag{
+  font-family:var(--f-mono);font-size:9px;letter-spacing:4px;
+  text-transform:uppercase;margin-bottom:14px;
+}
+.dc-light .dc-tag{color:var(--gold);}
+.dc-dark .dc-tag{color:rgba(154,122,40,0.8);}
+
+.dc-h{
+  font-family:var(--f-serif);
+  font-size:clamp(34px,3vw,52px);
+  font-weight:700;line-height:1.0;
+  letter-spacing:-.5px;margin-bottom:12px;
+}
+.dc-light .dc-h{color:var(--deep);}
+.dc-dark .dc-h{color:var(--pearl);}
+.dc-h em{font-style:italic;}
+.dc-light .dc-h em{color:var(--gold);}
+.dc-dark .dc-h em{color:var(--gold-hi);}
+
+.dc-pill{
+  display:inline-block;border:1px solid;
+  padding:6px 13px;font-family:var(--f-mono);
+  font-size:10px;letter-spacing:1px;margin-bottom:18px;
+}
+.dc-light .dc-pill{border-color:var(--gold-bd);color:var(--gold);}
+.dc-dark .dc-pill{border-color:rgba(154,122,40,0.25);color:rgba(154,122,40,0.8);}
+
+.dc-body{font-size:14px;line-height:1.8;margin-bottom:26px;}
+.dc-light .dc-body{color:var(--slate);}
+.dc-dark .dc-body{color:rgba(247,245,240,0.5);}
+
+.dc-list{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:44px;}
+.dc-list li{display:flex;align-items:flex-start;gap:12px;font-size:13px;}
+.dc-list li::before{content:'';display:inline-block;width:14px;height:1px;flex-shrink:0;margin-top:8px;}
+.dc-light .dc-list li{color:var(--ink);}
+.dc-light .dc-list li::before{background:var(--gold);}
+.dc-dark .dc-list li{color:rgba(247,245,240,0.55);}
+.dc-dark .dc-list li::before{background:rgba(154,122,40,0.5);}
+
+.dc-btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--f-sans);font-size:10px;font-weight:600;
+  letter-spacing:2.5px;text-transform:uppercase;
+  padding:14px 30px;transition:all .25s;
+}
+.dc-light .dc-btn{background:var(--deep);color:var(--pearl);}
+.dc-light .dc-btn:hover{background:var(--gold);color:var(--pearl);}
+.dc-dark .dc-btn{background:var(--gold);color:var(--deep);}
+.dc-dark .dc-btn:hover{background:var(--gold-hi);}
+
+/* === LOCATIONS === */
+.locs{background:var(--stone);}
+.locs-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:64px;}
+.locs-sub{font-size:13.5px;line-height:1.8;color:var(--slate);max-width:300px;text-align:right;}
+.locs-grid{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--warm);}
+.loc{
+  padding:48px 14px 40px;border-right:1px solid var(--warm);
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  text-align:center;background:var(--stone);
+  position:relative;overflow:hidden;transition:background .3s;
+}
+.loc:last-child{border-right:none;}
+.loc::after{
+  content:'';position:absolute;bottom:0;left:15%;right:15%;height:2px;
+  background:var(--gold);transform:scaleX(0);
+  transition:transform .35s var(--ease);
+}
+.loc:hover{background:var(--ivory);}
+.loc:hover::after{transform:scaleX(1);}
+.loc-i{font-size:30px;transition:transform .3s;}
+.loc:hover .loc-i{transform:scale(1.1) translateY(-3px);}
+.loc-n{font-family:var(--f-sans);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink);}
+.loc-d{font-size:11.5px;line-height:1.6;color:var(--slate);}
+
+/* === TESTIMONIALS === */
+.testi{background:var(--ivory);}
+.testi-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:64px;}
+.testi-deco{
+  position:relative;
+  font-family:var(--f-serif);font-size:500px;font-weight:700;font-style:italic;
+  color:rgba(154,122,40,0.04);line-height:1;
+  pointer-events:none;user-select:none;
+  position:absolute;top:-80px;left:-40px;
+}
+.testi{position:relative;overflow:hidden;}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--stone);position:relative;z-index:1;}
+.tc{
+  padding:48px 40px;border-right:1px solid var(--stone);
+  background:var(--ivory);transition:background .3s;
+}
+.tc:last-child{border-right:none;}
+.tc:hover{background:var(--pearl);}
+.tc.feat{background:var(--deep);border-right-color:rgba(255,255,255,0.05);}
+.tc.feat:hover{background:#222018;}
+
+.tc-stars{font-size:11px;letter-spacing:5px;margin-bottom:28px;}
+.tc:not(.feat) .tc-stars{color:var(--gold);}
+.tc.feat .tc-stars{color:rgba(154,122,40,0.6);}
+
+.tc-q{
+  font-family:var(--f-serif);font-size:72px;font-weight:700;
+  line-height:.4;display:block;margin-bottom:18px;
+}
+.tc:not(.feat) .tc-q{color:rgba(40,36,32,0.1);}
+.tc.feat .tc-q{color:rgba(154,122,40,0.15);}
+
+.tc-text{
+  font-family:var(--f-serif);font-size:16px;font-weight:400;
+  font-style:italic;line-height:1.72;margin-bottom:40px;
+}
+.tc:not(.feat) .tc-text{color:var(--ink);}
+.tc.feat .tc-text{color:rgba(247,245,240,0.75);}
+
+.tc-author{display:flex;align-items:center;gap:14px;}
+.tc-av{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-serif);font-size:16px;font-weight:700;
+}
+.tc:not(.feat) .tc-av{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-bd);}
+.tc.feat .tc-av{background:rgba(154,122,40,0.1);color:rgba(154,122,40,0.8);}
+.tc-name{font-family:var(--f-sans);font-size:13px;font-weight:600;margin-bottom:3px;}
+.tc:not(.feat) .tc-name{color:var(--ink);}
+.tc.feat .tc-name{color:rgba(247,245,240,0.7);}
+.tc-role{font-size:11px;}
+.tc:not(.feat) .tc-role{color:var(--ash);}
+.tc.feat .tc-role{color:rgba(247,245,240,0.35);}
+
+/* === MISSION === */
+.mission{display:grid;grid-template-columns:55% 45%;min-height:640px;background:var(--pearl);}
+.mis-l{
+  padding:100px 80px;
+  background:var(--deep);
+  display:flex;flex-direction:column;justify-content:center;
+  border-right:1px solid rgba(255,255,255,0.04);
+  position:relative;overflow:hidden;
+}
+.mis-l::before{
+  content:'';position:absolute;bottom:-80px;left:-60px;
+  width:450px;height:450px;
+  background:radial-gradient(circle,rgba(154,122,40,0.07) 0%,transparent 60%);
+}
+.mis-quote{
+  font-family:var(--f-serif);
+  font-size:clamp(28px,3vw,48px);
+  font-weight:700;line-height:1.15;letter-spacing:-.5px;
+  color:var(--pearl);margin-bottom:28px;position:relative;z-index:1;
+}
+.mis-quote em{font-style:italic;color:var(--gold-hi);}
+.mis-body{
+  font-size:15px;line-height:1.85;
+  color:rgba(247,245,240,0.5);max-width:400px;position:relative;z-index:1;
+}
+.mis-r{
+  background:var(--ivory);
+  display:flex;flex-direction:column;justify-content:center;
+  border-left:1px solid var(--stone);
+}
+.pillars{display:flex;flex-direction:column;}
+.pillar{
+  padding:36px 64px;border-bottom:1px solid var(--stone);
+  display:flex;gap:22px;align-items:flex-start;
+  transition:background .25s;
+}
+.pillar:last-child{border-bottom:none;}
+.pillar:hover{background:var(--pearl);}
+.p-n{
+  font-family:var(--f-serif);font-size:44px;font-weight:700;
+  color:var(--gold);opacity:.2;line-height:1;min-width:48px;
+  transition:opacity .3s;
+}
+.pillar:hover .p-n{opacity:.6;}
+.p-h{font-family:var(--f-sans);font-size:14px;font-weight:600;margin-bottom:6px;color:var(--ink);}
+.p-p{font-size:13px;line-height:1.7;color:var(--slate);}
+
+/* === FORM === */
+.demo{display:grid;grid-template-columns:42% 58%;min-height:720px;background:var(--ivory);}
+.demo-l{
+  padding:90px 64px;
+  background:var(--deep);
+  display:flex;flex-direction:column;justify-content:center;
+  border-right:1px solid rgba(255,255,255,0.04);
+  position:relative;overflow:hidden;
+}
+.demo-l::before{
+  content:'';position:absolute;top:-60px;left:-60px;
+  width:380px;height:380px;
+  background:radial-gradient(circle,rgba(154,122,40,0.07) 0%,transparent 60%);
+}
+.demo-l-sub{
+  font-size:14px;line-height:1.85;
+  color:rgba(247,245,240,0.45);max-width:320px;margin-bottom:48px;
+  position:relative;z-index:1;
+}
+.c-cards{display:flex;flex-direction:column;gap:10px;}
+.c-card{
+  display:flex;align-items:center;gap:16px;padding:18px 20px;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
+  transition:border-color .25s,background .25s;
+}
+.c-card:hover{border-color:rgba(154,122,40,0.3);background:rgba(154,122,40,0.04);}
+.c-ico{
+  width:40px;height:40px;background:var(--gold);color:var(--deep);
+  display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;
+}
+.c-lbl{font-family:var(--f-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(247,245,240,0.3);margin-bottom:3px;}
+.c-val{font-family:var(--f-sans);font-size:13px;font-weight:500;color:rgba(247,245,240,0.7);}
+
+.demo-r{padding:80px 80px;background:var(--pearl);display:flex;align-items:center;}
+.form-wrap{width:100%;}
+.form-lead{
+  font-family:var(--f-serif);font-size:36px;font-weight:700;
+  line-height:1.1;color:var(--deep);margin-bottom:36px;
+}
+.form-lead em{font-style:italic;color:var(--gold);}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fg{margin-bottom:16px;}
+.fg label{
+  display:block;font-family:var(--f-mono);font-size:9px;font-weight:300;
+  letter-spacing:2.5px;text-transform:uppercase;color:var(--ash);margin-bottom:8px;
+}
+.fg input,.fg textarea{
+  width:100%;background:var(--ivory);border:1px solid var(--stone);
+  border-bottom-color:var(--warm);
+  color:var(--ink);padding:13px 16px;
+  font-size:13.5px;font-family:var(--f-sans);font-weight:300;
+  outline:none;resize:none;border-radius:0;appearance:none;
+  transition:border-color .25s,background .25s;
+}
+.fg input:focus,.fg textarea:focus{border-color:var(--gold);background:var(--pearl);}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--warm);}
+.r-row{display:flex;gap:20px;flex-wrap:wrap;padding:8px 0;}
+.rl{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--slate);cursor:pointer;}
+.rl input[type="radio"]{accent-color:var(--gold);}
+.f-err{
+  font-family:var(--f-mono);font-size:11px;color:#c04040;
+  padding:10px 14px;background:rgba(192,64,64,0.06);
+  border-left:2px solid #c04040;margin-bottom:14px;display:none;
+}
+.f-btn{
+  width:100%;background:var(--deep);color:var(--pearl);
+  border:none;padding:18px 32px;cursor:pointer;
+  font-family:var(--f-sans);font-size:10px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  transition:background .25s,box-shadow .25s;
+  position:relative;overflow:hidden;margin-top:6px;
+}
+.f-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);
+  transform:translateX(-100%);transition:transform .5s;
+}
+.f-btn:hover{background:var(--gold);box-shadow:0 8px 40px rgba(154,122,40,0.25);}
+.f-btn:hover::after{transform:translateX(100%);}
+.f-success{text-align:center;padding:64px 0;display:none;}
+.f-check{
+  width:72px;height:72px;border-radius:50%;
+  background:var(--gold);color:var(--pearl);
+  font-size:28px;font-weight:700;display:flex;
+  align-items:center;justify-content:center;
+  margin:0 auto 24px;
+  box-shadow:0 0 50px rgba(154,122,40,0.2);
+}
+.f-ok-h{font-family:var(--f-serif);font-size:32px;font-weight:700;color:var(--deep);margin-bottom:10px;}
+.f-ok-p{font-size:14px;color:var(--slate);}
+
+/* === FOOTER === */
+footer{background:var(--deep);border-top:1px solid rgba(255,255,255,0.04);}
+.footer-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:72px;
+  padding:80px 72px 68px;border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.f-brand{
+  font-family:var(--f-serif);font-size:24px;font-weight:700;
+  color:var(--pearl);display:block;margin-bottom:16px;
+}
+.f-brand em{font-style:normal;color:var(--gold);}
+.f-desc{font-size:13px;line-height:1.78;color:rgba(247,245,240,0.35);max-width:250px;}
+.f-col h6{
+  font-family:var(--f-mono);font-size:9px;font-weight:300;
+  letter-spacing:3px;text-transform:uppercase;
+  color:rgba(247,245,240,0.25);margin-bottom:22px;
+}
+.f-col ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.f-col a{font-size:13px;color:rgba(247,245,240,0.38);transition:color .25s;}
+.f-col a:hover{color:var(--gold);}
+.footer-bot{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:26px 72px;
+}
+.f-copy{font-family:var(--f-mono);font-size:10px;letter-spacing:.5px;color:rgba(247,245,240,0.2);}
+.f-tagline{font-family:var(--f-serif);font-style:italic;font-size:13px;color:rgba(247,245,240,0.18);}
+
+/* === REVEAL ANIMATIONS === */
+.rv{opacity:0;transform:translateY(36px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+.rv.d1{transition-delay:.1s;}.rv.d2{transition-delay:.2s;}.rv.d3{transition-delay:.3s;}.rv.d4{transition-delay:.4s;}
+.rv.on{opacity:1;transform:translateY(0);}
+
+/* === RESPONSIVE === */
+@media(max-width:1100px){
+  nav{padding:20px 36px;}nav.stuck{padding:12px 36px;}
+  .hero{grid-template-columns:1fr;padding:120px 36px 80px;}
+  .hero-right{display:none;}
+  .hero-scroll{left:36px;}
+  .s,.s-sm{padding:90px 36px;}
+  .how-top{grid-template-columns:1fr;gap:24px;}
+  .steps{grid-template-columns:repeat(2,1fr);}
+  .nums{grid-template-columns:repeat(2,1fr);}
+  .num-item:nth-child(2){border-right:none;}
+  .num-item:nth-child(3){border-top:1px solid rgba(255,255,255,0.06);}
+  .num-item:last-child{border-top:1px solid rgba(255,255,255,0.06);}
+  .dual-header{grid-template-columns:1fr;gap:20px;}
+  .dual-cards{grid-template-columns:1fr;}
+  .dc+.dc{border-left:none;border-top:1px solid var(--stone);}
+  .dc-dark+.dc,.dc+.dc-dark{border-left:none;border-top:1px solid rgba(255,255,255,0.05);}
+  .dc{min-height:auto;}
+  .locs-grid{grid-template-columns:repeat(3,1fr);}
+  .locs-head{flex-direction:column;align-items:flex-start;gap:16px;}
+  .locs-sub{text-align:left;}
+  .testi-grid{grid-template-columns:1fr;}
+  .tc{border-right:none;border-bottom:1px solid var(--stone);}
+  .tc.feat{border-bottom-color:rgba(255,255,255,0.05);}
+  .tc:last-child{border-bottom:none;}
+  .testi-head{flex-direction:column;align-items:flex-start;gap:16px;}
+  .mission{grid-template-columns:1fr;}
+  .mis-l{border-right:none;border-bottom:1px solid rgba(255,255,255,0.04);padding:72px 44px;}
+  .mis-r{border-left:none;}
+  .pillar{padding:30px 44px;}
+  .demo{grid-template-columns:1fr;}
+  .demo-l{border-right:none;border-bottom:1px solid rgba(255,255,255,0.04);padding:64px 44px;}
+  .demo-r{padding:64px 44px;}
+  .f-row{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;gap:40px;padding:60px 36px 48px;}
+  .footer-bot{padding:22px 36px;}
+}
+@media(max-width:640px){
+  nav{padding:16px 24px;}nav.stuck{padding:10px 24px;}
+  .nav-links li:not(:last-child){display:none;}
+  .hero{padding:108px 24px 64px;}
+  .hero-h,.hero-h2{font-size:44px;}
+  .hero-stats{flex-wrap:wrap;gap:20px;}
+  .h-stat{border-right:none;padding-right:0;margin-right:0;}
+  .s,.s-sm{padding:64px 24px;}
+  .steps{grid-template-columns:1fr;}
+  .locs-grid{grid-template-columns:repeat(2,1fr);}
+  .nums{grid-template-columns:1fr 1fr;}
+  .dc{padding:52px 28px;}
+  .mis-l,.pillar{padding:52px 24px;}
+  .pillar{padding:26px 24px;}
+  .demo-l,.demo-r{padding:52px 24px;}
+  .form-lead{font-size:28px;}
+  .footer-top{grid-template-columns:1fr;padding:48px 24px 36px;}
+  .footer-bot{flex-direction:column;gap:10px;text-align:center;padding:18px 24px;}
+}
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<!-- CURSOR -->
+<div id="cur"></div>
+<div id="cur-ring"></div>
 
+<!-- ══════ NAV ══════ -->
 <nav id="nav">
-  <a href="#" class="logo">WEND<span>Z</span></a>
+  <a href="#" class="nav-logo">Wen<em>dz</em></a>
   <ul class="nav-links">
     <li><a href="#how">How It Works</a></li>
     <li><a href="#brands">Brands</a></li>
     <li><a href="#partners">Partners</a></li>
     <li><a href="#mission">Mission</a></li>
+    <li><a href="#contact" class="nav-btn">Book a Demo</a></li>
   </ul>
-  <a href="#contact" class="nav-cta">Book a Demo</a>
 </nav>
 
-<section class="hero" id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <div class="hero-wm">Wendz</div>
+
   <div class="hero-left">
-    <div class="hero-tag">Retail Media · AdTech · Smart Retail</div>
-    <h1>REVOLUTIONIZING<br><em>Retail</em><br>MEDIA.</h1>
-    <p class="hero-sub">Wendz merges smart vending with precision AdTech. Reach your audience where they live, work, and shop — with the ultra-slim MOD-W1.</p>
+    <div class="hero-tag">Retail Media &middot; AdTech &middot; Smart Vending</div>
+
+    <div class="hero-h">Precision retail</div>
+    <div class="hero-h2">media, built for</div>
+    <div class="hero-h" style="margin-bottom:44px"><em>real places.</em></div>
+
+    <p class="hero-p">Wendz merges smart vending with precision AdTech. The MOD-W1 &mdash; an ultra-slim wall-mounted node that turns any location into a hyper-targeted advertising powerhouse.</p>
+
     <div class="hero-actions">
-      <a href="#contact" class="btn-primary">Book a Demo</a>
-      <a href="#how" class="btn-ghost">See How It Works</a>
+      <a href="#contact" class="btn-dark">Book a Demo</a>
+      <a href="#how" class="btn-outline"><span class="btn-outline-line"></span>How it works</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="h-stat"><div class="h-stat-n">&#8377;15K</div><div class="h-stat-l">Ad Value / Screen / Mo</div></div>
+      <div class="h-stat"><div class="h-stat-n">8&Prime;</div><div class="h-stat-l">Wall Depth</div></div>
+      <div class="h-stat"><div class="h-stat-n">4K</div><div class="h-stat-l">Digital Display</div></div>
     </div>
   </div>
+
   <div class="hero-right">
-    <div class="device-frame">
-      <div class="device-screen">
-        <div class="screen-header">MOD-W1</div>
-        <div class="screen-body">
-          <div class="screen-ad"><strong>NUTRI BLEND</strong>Premium Protein · Targeted Reach</div>
-          <div class="screen-metric">
-            <div class="metric-pill"><span>₹15K</span>Ad Value</div>
-            <div class="metric-pill"><span>4K</span>Display</div>
-          </div>
-          <div class="screen-metric">
-            <div class="metric-pill"><span>8"</span>Ultra Slim</div>
-            <div class="metric-pill"><span>∞</span>Revenue</div>
-          </div>
-          <div class="screen-ad screen-ad--live"><strong>CAMPAIGN LIVE</strong>Targeting: Gym · Mumbai · 25-40</div>
+    <div class="hero-visual-wrap">
+      <div class="hv-ring hv-r1"></div>
+      <div class="hv-ring hv-r2"></div>
+      <div class="hv-device">
+        <div class="hv-side"></div>
+        <div class="hv-screen">
+          <div class="hv-line"></div><div class="hv-line"></div>
+          <div class="hv-line"></div><div class="hv-line"></div>
+          <div class="hv-line"></div>
         </div>
+        <div class="hv-badge">MOD-W1</div>
+      </div>
+      <div class="hv-label hv-l1">
+        <div class="hv-label-t">Ad Revenue</div>
+        <div class="hv-label-v">&#8377;15K/mo</div>
+      </div>
+      <div class="hv-label hv-l2">
+        <div class="hv-label-t">Display</div>
+        <div class="hv-label-v">4K Ultra</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll"><div class="hero-scroll-bar"></div>Scroll to explore</div>
+</section>
+
+<!-- RULE -->
+<div class="thin-rule"></div>
+
+<!-- ══════ TICKER ══════ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <div class="t-item">Hyper-Targeted Advertising<span class="t-dot"></span></div>
+    <div class="t-item">Smart Vending Nodes<span class="t-dot"></span></div>
+    <div class="t-item">4K Digital Displays<span class="t-dot"></span></div>
+    <div class="t-item">Safety Hub Protocol<span class="t-dot"></span></div>
+    <div class="t-item">Passive Revenue for Partners<span class="t-dot"></span></div>
+    <div class="t-item">MOD-W1 &middot; 3ft &times; 2ft &times; 8in<span class="t-dot"></span></div>
+    <div class="t-item">Hyper-Targeted Advertising<span class="t-dot"></span></div>
+    <div class="t-item">Smart Vending Nodes<span class="t-dot"></span></div>
+    <div class="t-item">4K Digital Displays<span class="t-dot"></span></div>
+    <div class="t-item">Safety Hub Protocol<span class="t-dot"></span></div>
+    <div class="t-item">Passive Revenue for Partners<span class="t-dot"></span></div>
+    <div class="t-item">MOD-W1 &middot; 3ft &times; 2ft &times; 8in<span class="t-dot"></span></div>
+  </div>
+</div>
+
+<!-- ══════ HOW IT WORKS ══════ -->
+<section class="how s" id="how">
+  <div class="how-top">
+    <div class="rv">
+      <div class="s-label"><span class="s-label-bar"></span>How It Works</div>
+      <h2 class="s-title" style="margin-top:12px">The Smart <em>Node</em><br><span class="ghost">Network.</span></h2>
+    </div>
+    <p class="how-desc rv d1">Every MOD-W1 is a self-contained advertising and retail ecosystem. Installed in minutes. Revenue-generating from day one. Four steps from bare wall to passive income.</p>
+  </div>
+  <div class="steps">
+    <div class="step rv">
+      <div class="step-n">01</div><span class="step-icon">&#128205;</span>
+      <div class="step-t">Choose Your Location</div>
+      <p class="step-d">Gyms, offices, salons, hospitals &mdash; any wall with footfall becomes a revenue node.</p>
+      <div class="step-arr">&#8599;</div>
+    </div>
+    <div class="step rv d1">
+      <div class="step-n">02</div><span class="step-icon">&#9889;</span>
+      <div class="step-t">Install in Minutes</div>
+      <p class="step-d">8-inch depth. Mounts flush to any wall. Zero floor space. Wendz handles everything.</p>
+      <div class="step-arr">&#8599;</div>
+    </div>
+    <div class="step rv d2">
+      <div class="step-n">03</div><span class="step-icon">&#127919;</span>
+      <div class="step-t">Deploy Targeted Ads</div>
+      <p class="step-d">Brands run 4K campaigns matched precisely to your location's demographic profile.</p>
+      <div class="step-arr">&#8599;</div>
+    </div>
+    <div class="step rv d3">
+      <div class="step-n">04</div><span class="step-icon">&#128176;</span>
+      <div class="step-t">Earn Revenue Share</div>
+      <p class="step-d">Earn from product sales and ad rentals. Passive income with full transparency.</p>
+      <div class="step-arr">&#8599;</div>
+    </div>
+  </div>
+</section>
+
+<!-- RULE -->
+<div class="gold-rule"></div>
+
+<!-- ══════ NUMBERS ══════ -->
+<div class="nums">
+  <div class="num-item rv"><div class="n-val">&#8377;15<sup>K</sup></div><div class="n-label">Projected ad value per screen, per month</div></div>
+  <div class="num-item rv d1"><div class="n-val">8<sup>&#8243;</sup></div><div class="n-label">Ultra-slim wall depth &mdash; fits any corridor</div></div>
+  <div class="num-item rv d2"><div class="n-val">4K</div><div class="n-label">Crystal-clear interactive digital display</div></div>
+  <div class="num-item rv d3"><div class="n-val">5<sup>s</sup></div><div class="n-label">Emergency response trigger, Safety Hub</div></div>
+</div>
+
+<!-- ══════ BRANDS & PARTNERS ══════ -->
+<section class="dual s" id="brands">
+  <div class="dual-header">
+    <div class="rv">
+      <div class="s-label"><span class="s-label-bar"></span>Two Audiences. One Platform.</div>
+      <h2 class="s-title" style="margin-top:12px">Built for <em>Brands.</em><br>Built for Partners.</h2>
+    </div>
+    <p class="dual-header-p rv d1">Whether you're chasing precision reach or passive income &mdash; Wendz has a seat at the table for you.</p>
+  </div>
+  <div class="dual-cards">
+    <div class="dc dc-light rv">
+      <div class="dc-ghost">01</div>
+      <div class="dc-tag">For Brands &amp; Advertisers</div>
+      <h3 class="dc-h">Your Brand,<br><em>In Their Hand.</em></h3>
+      <div class="dc-pill">&#8377;15,000 projected ad value / screen / month</div>
+      <p class="dc-body">Turn every transaction into an impression. Deploy campaigns where your exact audience spends time &mdash; not just scrolls past.</p>
+      <ul class="dc-list">
+        <li>Demographic precision &mdash; right people, right place</li>
+        <li>Interactive 4K touchscreen engagement</li>
+        <li>Real-time analytics and campaign targeting</li>
+        <li>Beyond static billboards &mdash; active commerce</li>
+      </ul>
+      <a href="#contact" class="dc-btn">Start Advertising &#8594;</a>
+    </div>
+    <div class="dc dc-dark rv d1" id="partners">
+      <div class="dc-ghost">02</div>
+      <div class="dc-tag">For Property Owners &amp; Partners</div>
+      <h3 class="dc-h">Passive Income.<br><em>Zero Hassle.</em></h3>
+      <div class="dc-pill">Monetize empty wall space from day one</div>
+      <p class="dc-body">Transform dead wall space into a consistent revenue stream. Earn from product sales and ad rentals with zero operational burden.</p>
+      <ul class="dc-list">
+        <li>Revenue share from sales + ad rentals</li>
+        <li>Safety Hub enhances premises' security</li>
+        <li>8-inch depth &mdash; no floor space sacrificed</li>
+        <li>Ideal for corridors, lobbies, retail spots</li>
+      </ul>
+      <a href="#contact" class="dc-btn">Partner With Us &#8594;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ LOCATIONS ══════ -->
+<section class="locs s-sm">
+  <div class="locs-head rv">
+    <div>
+      <div class="s-label"><span class="s-label-bar"></span>Where Wendz Thrives</div>
+      <h2 class="s-title" style="margin-top:12px">Every Space.<br><em>Every Audience.</em></h2>
+    </div>
+    <p class="locs-sub">From premium gyms to corporate lobbies &mdash; MOD-W1 is engineered for every high-footfall environment.</p>
+  </div>
+  <div class="locs-grid">
+    <div class="loc rv"><div class="loc-i">&#127947;</div><div class="loc-n">Gyms &amp; Studios</div><p class="loc-d">Health-conscious, high-income audiences.</p></div>
+    <div class="loc rv d1"><div class="loc-i">&#127970;</div><div class="loc-n">Corporate Offices</div><p class="loc-d">Professionals during breaks and commutes.</p></div>
+    <div class="loc rv d2"><div class="loc-i">&#9986;</div><div class="loc-n">Salons &amp; Spas</div><p class="loc-d">Consumers primed for lifestyle purchases.</p></div>
+    <div class="loc rv d3"><div class="loc-i">&#127973;</div><div class="loc-n">Healthcare</div><p class="loc-d">High-trust environments, sustained dwell.</p></div>
+    <div class="loc rv d4"><div class="loc-i">&#128717;</div><div class="loc-n">Retail &amp; Malls</div><p class="loc-d">Purchase-intent at peak buying moments.</p></div>
+  </div>
+</section>
+
+<!-- RULE -->
+<div class="thin-rule"></div>
+
+<!-- ══════ TESTIMONIALS ══════ -->
+<section class="testi s">
+  <div class="testi-deco">&ldquo;</div>
+  <div class="testi-head">
+    <div class="rv">
+      <div class="s-label"><span class="s-label-bar"></span>What They Say</div>
+      <h2 class="s-title" style="margin-top:12px"><em>Early</em> Voices.</h2>
+    </div>
+    <a href="#contact" class="btn-outline rv d1"><span class="btn-outline-line"></span>Join the Network</a>
+  </div>
+  <div class="testi-grid">
+    <div class="tc feat rv">
+      <div class="tc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <span class="tc-q">&ldquo;</span>
+      <p class="tc-text">Wendz turned our lobby into a revenue source we never considered. The installation took under an hour and the unit looks premium &mdash; our clients actually compliment it.</p>
+      <div class="tc-author"><div class="tc-av">R</div><div><div class="tc-name">Rohan Mehta</div><div class="tc-role">Director, Elite Fitness Hub &middot; Mumbai</div></div></div>
+    </div>
+    <div class="tc rv d1">
+      <div class="tc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <span class="tc-q">&ldquo;</span>
+      <p class="tc-text">The targeting capability is what sold us. Wendz lets us reach exactly the right consumer at the moment of purchase. It's OOH with a brain.</p>
+      <div class="tc-author"><div class="tc-av">P</div><div><div class="tc-name">Priya Sharma</div><div class="tc-role">CMO, NutriBlend India &middot; Bengaluru</div></div></div>
+    </div>
+    <div class="tc rv d2">
+      <div class="tc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <span class="tc-q">&ldquo;</span>
+      <p class="tc-text">The Safety Hub protocol made the decision. 400 members daily &mdash; having an emergency escalation system integrated is something we now lead with in our own marketing.</p>
+      <div class="tc-author"><div class="tc-av">A</div><div><div class="tc-name">Aditya Kapoor</div><div class="tc-role">Founder, WorkSpaceOne &middot; Delhi NCR</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ MISSION ══════ -->
+<section class="mission" id="mission">
+  <div class="mis-l">
+    <div class="s-label" style="margin-bottom:16px;position:relative;z-index:1"><span class="s-label-bar"></span>Our Mission</div>
+    <p class="mis-quote">Advertising should be as <em>useful</em> as the products it promotes.</p>
+    <p class="mis-body">At Wendz, we're building a network of Smart Nodes that serve communities, provide safety infrastructure, and give brands a direct, intelligent line to their consumers. Technology that gives back.</p>
+  </div>
+  <div class="mis-r">
+    <div class="pillars">
+      <div class="pillar"><div class="p-n">01</div><div><div class="p-h">Hyper-Targeted by Design</div><p class="p-p">Optimized for specific demographics and locations. Zero wasted impressions.</p></div></div>
+      <div class="pillar"><div class="p-n">02</div><div><div class="p-h">Safety-First Infrastructure</div><p class="p-p">5s hold &rarr; local staff &rarr; Wendz HQ &rarr; police. Every node is a safety hub.</p></div></div>
+      <div class="pillar"><div class="p-n">03</div><div><div class="p-h">Sleek, Space-Saving Form</div><p class="p-p">3ft &times; 2ft &times; 8in. Mounts to any wall. Maximum utility, zero compromise.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RULE -->
+<div class="gold-rule"></div>
+
+<!-- ══════ CONTACT FORM ══════ -->
+<section class="demo" id="contact">
+  <div class="demo-l">
+    <div class="s-label" style="margin-bottom:16px;position:relative;z-index:1"><span class="s-label-bar"></span>Book a Demo</div>
+    <h2 style="font-family:var(--f-serif);font-size:clamp(32px,3vw,52px);font-weight:700;color:var(--pearl);margin-bottom:20px;position:relative;z-index:1;line-height:1.1">Deploy Your<br><em style="color:var(--gold-hi);font-style:italic">First Node.</em></h2>
+    <p class="demo-l-sub">Fill in your details and our team will reach out within 24 hours.</p>
+    <div class="c-cards">
+      <a href="mailto:info.wendz@gmail.com" class="c-card"><div class="c-ico">&#9993;</div><div><div class="c-lbl">Email Us</div><div class="c-val">info.wendz@gmail.com</div></div></a>
+      <a href="tel:+918217716904" class="c-card"><div class="c-ico">&#9990;</div><div><div class="c-lbl">Call Us</div><div class="c-val">+91 82177 16904</div></div></a>
+    </div>
+  </div>
+  <div class="demo-r">
+    <div class="form-wrap">
+      <p class="form-lead">Tell us about<br><em>your space.</em></p>
+      <div id="fSuccess" class="f-success">
+        <div class="f-check">&#10003;</div>
+        <div class="f-ok-h">Request Sent.</div>
+        <p class="f-ok-p">We'll be in touch within 24 hours.</p>
+      </div>
+      <div id="fFields">
+        <div class="f-row">
+          <div class="fg"><label>Full Name *</label><input type="text" id="f_name" placeholder="Rahul Sharma"></div>
+          <div class="fg"><label>Phone Number *</label><input type="tel" id="f_phone" placeholder="+91 98XXX XXXXX"></div>
+        </div>
+        <div class="fg"><label>Email Address *</label><input type="email" id="f_email" placeholder="you@company.com"></div>
+        <div class="fg"><label>Company / Property Name *</label><input type="text" id="f_company" placeholder="Your company or venue"></div>
+        <div class="fg"><label>I am a...</label>
+          <div class="r-row">
+            <label class="rl"><input type="radio" name="utype" value="Brand / Advertiser" checked> Brand / Advertiser</label>
+            <label class="rl"><input type="radio" name="utype" value="Property Owner / Partner"> Property Owner / Partner</label>
+            <label class="rl"><input type="radio" name="utype" value="Other"> Other</label>
+          </div>
+        </div>
+        <div class="fg"><label>Location / City</label><input type="text" id="f_city" placeholder="Mumbai, Delhi, Bengaluru..."></div>
+        <div class="fg"><label>Message</label><textarea id="f_msg" rows="3" placeholder="Tell us about your space or campaign goals..."></textarea></div>
+        <div id="fErr" class="f-err">Please fill in all required fields.</div>
+        <button class="f-btn" onclick="submitDemo()">Send Demo Request &#8594;</button>
       </div>
     </div>
   </div>
 </section>
 
-<div class="stats-bar reveal">
-  <div class="stat-item"><div class="stat-num">₹15K</div><div class="stat-label">Ad Value / Screen / Mo</div></div>
-  <div class="stat-item"><div class="stat-num">8"</div><div class="stat-label">Ultra-Slim Depth</div></div>
-  <div class="stat-item"><div class="stat-num">4K</div><div class="stat-label">Digital Display</div></div>
-  <div class="stat-item"><div class="stat-num">360°</div><div class="stat-label">Revenue Ecosystem</div></div>
-</div>
-
-<div class="marquee-strip">
-  <div class="marquee-inner">
-    <div class="marquee-item">HYPER-TARGETED ADVERTISING <span class="marquee-dot"></span></div>
-    <div class="marquee-item">SMART VENDING NODES <span class="marquee-dot"></span></div>
-    <div class="marquee-item">4K DIGITAL DISPLAY <span class="marquee-dot"></span></div>
-    <div class="marquee-item">SAFETY HUB PROTOCOL <span class="marquee-dot"></span></div>
-    <div class="marquee-item">PASSIVE REVENUE <span class="marquee-dot"></span></div>
-    <div class="marquee-item">MOD-W1 · 3FT × 2FT × 8IN <span class="marquee-dot"></span></div>
-    <div class="marquee-item">HYPER-TARGETED ADVERTISING <span class="marquee-dot"></span></div>
-    <div class="marquee-item">SMART VENDING NODES <span class="marquee-dot"></span></div>
-    <div class="marquee-item">4K DIGITAL DISPLAY <span class="marquee-dot"></span></div>
-    <div class="marquee-item">SAFETY HUB PROTOCOL <span class="marquee-dot"></span></div>
-    <div class="marquee-item">PASSIVE REVENUE <span class="marquee-dot"></span></div>
-    <div class="marquee-item">MOD-W1 · 3FT × 2FT × 8IN <span class="marquee-dot"></span></div>
-  </div>
-</div>
-
-<section class="how-section" id="how">
-  <div class="how-header reveal">
-    <div class="section-label">Process</div>
-    <h2 class="section-title">THE SMART <em>Node</em> NETWORK.</h2>
-  </div>
-  <div class="steps-grid">
-    <div class="step reveal reveal-delay-1"><div class="step-num">01</div><div class="step-icon">📍</div><h3>Choose Your Location</h3><p>Gyms, offices, salons, hospitals, corridors — any wall space becomes a revenue-generating smart node with Wendz.</p></div>
-    <div class="step reveal reveal-delay-2"><div class="step-num">02</div><div class="step-icon">⚡</div><h3>Install in Minutes</h3><p>The ultra-slim MOD-W1 (8-inch depth) mounts flush to any wall. No floor space lost. Zero operational complexity.</p></div>
-    <div class="step reveal reveal-delay-3"><div class="step-num">03</div><div class="step-icon">🎯</div><h3>Deploy Targeted Ads</h3><p>Brands deploy hyper-targeted campaigns on the 4K screen — matched precisely to the demographic of your location.</p></div>
-    <div class="step reveal reveal-delay-4"><div class="step-num">04</div><div class="step-icon">💰</div><h3>Earn Revenue Share</h3><p>Property owners earn from both product sales and digital ad rentals. Passive income. Zero hassle. Total visibility.</p></div>
-  </div>
-</section>
-
-<div class="audience-section" id="brands">
-  <div class="audience-panel brands reveal">
-    <div class="panel-badge">For Brands & Advertisers</div>
-    <div class="panel-price">₹15K</div>
-    <div class="panel-price-label">Projected Ad Value / Screen / Month</div>
-    <h3 class="panel-title">Your Brand, <em>In Their Hand.</em></h3>
-    <p class="panel-desc">Turn every transaction into an impression. Deploy campaigns in environments where your specific audience spends time — not just scrolls past.</p>
-    <ul class="feature-list">
-      <li>Demographic precision — right people, right place</li>
-      <li>Interactive 4K touchscreen engagement</li>
-      <li>Move beyond static billboards into active commerce</li>
-      <li>Real-time campaign analytics and targeting</li>
-    </ul>
-    <a href="#contact" class="btn-primary">Start Advertising</a>
-  </div>
-  <div class="audience-panel partners reveal" id="partners">
-    <div class="panel-badge">For Property Owners & Partners</div>
-    <div class="panel-price">₹₹₹</div>
-    <div class="panel-price-label">Passive Income. Zero Hassle.</div>
-    <h3 class="panel-title">Monetize <em>Dead Space.</em></h3>
-    <p class="panel-desc">Transform empty wall space into a consistent revenue stream. Earn from product sales and digital ad rentals — with no operational burden.</p>
-    <ul class="feature-list">
-      <li>Revenue share from sales + ad rentals</li>
-      <li>Safety Hub enhances your premises' security</li>
-      <li>8-inch depth — no floor space sacrificed</li>
-      <li>Ideal for corridors, lobbies, and tight retail spots</li>
-    </ul>
-    <a href="#contact" class="btn-primary">Partner With Us</a>
-  </div>
-</div>
-
-<!-- LOCATIONS — 3x2 grid, all 6 cards perfectly arranged -->
-<section class="locations-section">
-  <div class="reveal">
-    <div class="section-label">Where Wendz Thrives</div>
-    <h2 class="section-title">EVERY SPACE. <em>Every</em> AUDIENCE.</h2>
-  </div>
-  <div class="locations-grid">
-    <div class="location-card reveal reveal-delay-1">
-      <div class="location-emoji">🏋️</div>
-      <div class="location-name">Gyms & Studios</div>
-      <p class="location-desc">Health-conscious, high-income demographics in a captive environment.</p>
-    </div>
-    <div class="location-card reveal reveal-delay-2">
-      <div class="location-emoji">🏢</div>
-      <div class="location-name">Corporate Offices</div>
-      <p class="location-desc">Professional audiences during high-dwell-time breaks and commutes.</p>
-    </div>
-    <div class="location-card reveal reveal-delay-3">
-      <div class="location-emoji">✂️</div>
-      <div class="location-name">Salons & Spas</div>
-      <p class="location-desc">Leisure-state consumers primed for beauty and lifestyle brands.</p>
-    </div>
-    <div class="location-card reveal reveal-delay-2">
-      <div class="location-emoji">🏥</div>
-      <div class="location-name">Healthcare</div>
-      <p class="location-desc">Safety-first, high-trust environments with captive, receptive audiences.</p>
-    </div>
-    <div class="location-card reveal reveal-delay-3">
-      <div class="location-emoji">🛍️</div>
-      <div class="location-name">Retail & Malls</div>
-      <p class="location-desc">Purchase-intent audiences at peak buying moments in their journey.</p>
-    </div>
-    <div class="location-card reveal reveal-delay-4">
-      <div class="location-emoji">🍻</div>
-      <div class="location-name">Pubs & Restaurants</div>
-      <p class="location-desc">Social, high-dwell-time audiences receptive to lifestyle, F&B, and entertainment brands.</p>
-    </div>
-  </div>
-</section>
-
-<section class="testimonials-section">
-  <div class="reveal">
-    <div class="section-label">Social Proof</div>
-    <h2 class="section-title"><em>Early</em> VOICES.</h2>
-  </div>
-  <div class="testimonials-overflow">
-    <div class="testimonials-track">
-      <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">Wendz turned our lobby into a revenue source we never even considered. Installation took under an hour and the unit looks premium — our clients actually compliment it.</p><div class="testimonial-author"><div class="author-avatar">R</div><div><div class="author-name">Rohan Mehta</div><div class="author-title">Director, Elite Fitness Hub · Mumbai</div></div></div></div>
-      <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">The targeting capability is what sold us. We're a D2C brand and Wendz lets us reach exactly the right consumer at the moment they're making a purchase decision. OOH with a brain.</p><div class="testimonial-author"><div class="author-avatar">P</div><div><div class="author-name">Priya Sharma</div><div class="author-title">CMO, NutriBlend India · Bengaluru</div></div></div></div>
-      <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">The Safety Hub protocol alone made the decision for us. Our co-working space has 400 members daily. Having that emergency system integrated is something we now lead with in our own marketing.</p><div class="testimonial-author"><div class="author-avatar">A</div><div><div class="author-name">Aditya Kapoor</div><div class="author-title">Founder, WorkSpaceOne · Delhi NCR</div></div></div></div>
-      <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">The ROI is unlike anything we've seen in traditional OOH. Data-driven, location-specific, and the form factor fits perfectly in our clinic corridors.</p><div class="testimonial-author"><div class="author-avatar">S</div><div><div class="author-name">Dr. Sneha Kulkarni</div><div class="author-title">Director, Medico Care Clinics · Pune</div></div></div></div>
-      <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">Wendz turned our lobby into a revenue source we never even considered. Installation took under an hour and the unit looks premium — our clients actually compliment it.</p><div class="testimonial-author"><div class="author-avatar">R</div><div><div class="author-name">Rohan Mehta</div><div class="author-title">Director, Elite Fitness Hub · Mumbai</div></div></div></div>
-      <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">The targeting capability is what sold us. We're a D2C brand and Wendz lets us reach exactly the right consumer at the moment they're making a purchase decision. OOH with a brain.</p><div class="testimonial-author"><div class="author-avatar">P</div><div><div class="author-name">Priya Sharma</div><div class="author-title">CMO, NutriBlend India · Bengaluru</div></div></div></div>
-      <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">The Safety Hub protocol alone made the decision for us. Our co-working space has 400 members daily. Having that emergency system integrated is something we now lead with in our own marketing.</p><div class="testimonial-author"><div class="author-avatar">A</div><div><div class="author-name">Aditya Kapoor</div><div class="author-title">Founder, WorkSpaceOne · Delhi NCR</div></div></div></div>
-      <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">The ROI is unlike anything we've seen in traditional OOH. Data-driven, location-specific, and the form factor fits perfectly in our clinic corridors.</p><div class="testimonial-author"><div class="author-avatar">S</div><div><div class="author-name">Dr. Sneha Kulkarni</div><div class="author-title">Director, Medico Care Clinics · Pune</div></div></div></div>
-    </div>
-  </div>
-</section>
-
-<div class="mission-section" id="mission">
-  <div class="mission-inner reveal">
-    <div class="mission-label">Our Mission</div>
-    <p class="mission-text">"Advertising should be as useful as the products it promotes."</p>
-    <p class="mission-body">We're building a network of Smart Nodes that serve communities, provide essential safety infrastructure, and give brands a direct, intelligent line to their consumers.</p>
-    <div class="mission-pillars">
-      <div class="pillar"><div class="pillar-num">01</div><h4>Hyper-Targeted by Design</h4><p>Custom branding spaces optimized for specific demographics. No wasted impressions.</p></div>
-      <div class="pillar"><div class="pillar-num">02</div><h4>Safety-First Infrastructure</h4><p>Integrated 5-second emergency escalation → local staff → Wendz HQ → police. Every node is a safety hub.</p></div>
-      <div class="pillar"><div class="pillar-num">03</div><h4>Sleek, Space-Saving Form</h4><p>3ft × 2ft × 8in. Ultra-slim profile. Maximum utility, zero aesthetic compromise.</p></div>
-    </div>
-  </div>
-</div>
-
-<div class="contact-section" id="contact">
-  <div class="contact-left">
-    <div class="section-label">Get Started</div>
-    <h2 class="section-title">LET'S DEPLOY YOUR <em>First</em> NODE.</h2>
-    <div class="contact-info-items">
-      <div class="contact-info-item"><span class="info-label">Email</span><a href="mailto:info.wendz@gmail.com" class="info-value">info.wendz@gmail.com</a></div>
-      <div class="contact-info-item"><span class="info-label">Phone</span><a href="tel:+918217716904" class="info-value">+91 82177 16904</a></div>
-      <div class="contact-info-item"><span class="info-label">Response Time</span><span class="info-value">Within 24 Hours</span></div>
-      <div class="contact-info-item"><span class="info-label">Coverage</span><span class="info-value">Pan India</span></div>
-    </div>
-  </div>
-  <div class="contact-right">
-    <div class="form-title">TELL US ABOUT <em>Your Space.</em></div>
-    <div class="form-success" id="formSuccess"><h3>REQUEST SENT.</h3><p>We'll reach out within 24 hours.</p></div>
-    <form id="contactForm">
-      <div class="form-row">
-        <div class="form-group"><label>Full Name *</label><input type="text" required placeholder="Rohan Mehta"></div>
-        <div class="form-group"><label>Phone Number *</label><input type="tel" required placeholder="+91 98765 43210"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>Email Address *</label><input type="email" required placeholder="rohan@company.com"></div>
-        <div class="form-group"><label>Company / Property *</label><input type="text" required placeholder="Elite Fitness Hub"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>I am a...</label><select><option value="">Select one</option><option>Brand / Advertiser</option><option>Property Owner / Partner</option><option>Other</option></select></div>
-        <div class="form-group"><label>Location / City</label><input type="text" placeholder="Mumbai"></div>
-      </div>
-      <div class="form-group"><label>Message</label><textarea placeholder="Tell us about your space or campaign goals..."></textarea></div>
-      <button type="submit" class="form-submit">Send Demo Request →</button>
-    </form>
-  </div>
-</div>
-
+<!-- ══════ FOOTER ══════ -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a href="#" class="logo">WEND<span>Z</span></a>
-      <p>Merging smart vending with digital AdTech to create the world's most intelligent retail media network. One node at a time.</p>
+  <div class="footer-top">
+    <div>
+      <a href="#" class="f-brand">Wen<em>dz</em></a>
+      <p class="f-desc">Merging smart vending with precision AdTech &mdash; the world's most intelligent retail media network, one node at a time.</p>
     </div>
-    <div class="footer-col"><h5>Platform</h5><ul><li><a href="#">MOD-W1 Specs</a></li><li><a href="#">Advertiser Dashboard</a></li><li><a href="#">Partner Portal</a></li><li><a href="#">Safety Hub</a></li></ul></div>
-    <div class="footer-col"><h5>Company</h5><ul><li><a href="#">About Us</a></li><li><a href="#">Mission</a></li><li><a href="#">Press</a></li><li><a href="#">Careers</a></li></ul></div>
-    <div class="footer-col"><h5>Contact</h5><ul><li><a href="#contact">Book a Demo</a></li><li><a href="mailto:info.wendz@gmail.com">info.wendz@gmail.com</a></li><li><a href="tel:+918217716904">+91 82177 16904</a></li><li><a href="#">India</a></li></ul></div>
+    <div class="f-col"><h6>Platform</h6><ul><li><a href="#">MOD-W1 Specs</a></li><li><a href="#">Advertiser Dashboard</a></li><li><a href="#">Partner Portal</a></li><li><a href="#">Safety Hub</a></li></ul></div>
+    <div class="f-col"><h6>Company</h6><ul><li><a href="#">About Us</a></li><li><a href="#">Mission</a></li><li><a href="#">Press</a></li><li><a href="#">Careers</a></li></ul></div>
+    <div class="f-col"><h6>Contact</h6><ul><li><a href="#contact">Book a Demo</a></li><li><a href="mailto:info.wendz@gmail.com">info.wendz@gmail.com</a></li><li><a href="tel:+918217716904">+91 82177 16904</a></li><li><a href="#">India</a></li></ul></div>
   </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 Wendz LLP. All rights reserved.</span>
-    <span class="footer-tagline">THE WORLD'S MOST INTELLIGENT VENDING NODE.</span>
+  <div class="footer-bot">
+    <span class="f-copy">&copy; 2025 Wendz Technologies Pvt. Ltd. All rights reserved.</span>
+    <span class="f-tagline">The world's most intelligent vending node.</span>
   </div>
 </footer>
 
 <script>
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
-  document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px'; });
-  function animateRing() { ringX += (mouseX - ringX) * 0.12; ringY += (mouseY - ringY) * 0.12; ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px'; requestAnimationFrame(animateRing); }
-  animateRing();
-  document.querySelectorAll('a, button, .step, .location-card').forEach(el => {
-    el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%, -50%) scale(2)'; ring.style.transform = 'translate(-50%, -50%) scale(1.5)'; ring.style.borderColor = 'rgba(245,166,35,0.8)'; });
-    el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%, -50%) scale(1)'; ring.style.transform = 'translate(-50%, -50%) scale(1)'; ring.style.borderColor = 'rgba(245,166,35,0.5)'; });
-  });
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); });
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-  reveals.forEach(el => observer.observe(el));
-  document.getElementById('contactForm').addEventListener('submit', (e) => { e.preventDefault(); document.getElementById('contactForm').style.display = 'none'; document.getElementById('formSuccess').style.display = 'block'; });
+/* CURSOR */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.step,.loc,.tc,.c-card,.num-item,.pillar,.dc').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+});
+
+/* NAV */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('stuck',scrollY>60),{passive:true});
+
+/* SMOOTH SCROLL */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});
+});
+
+/* REVEAL */
+const rvEls=document.querySelectorAll('.rv');
+if('IntersectionObserver' in window){
+  const obs=new IntersectionObserver(entries=>{entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('on');obs.unobserve(en.target);}});},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+  rvEls.forEach(el=>obs.observe(el));
+}else{rvEls.forEach(el=>el.classList.add('on'));}
+setTimeout(()=>rvEls.forEach(el=>el.classList.add('on')),2800);
+
+/* FORM */
+function submitDemo(){
+  const v=id=>document.getElementById(id).value.trim();
+  const name=v('f_name'),phone=v('f_phone'),email=v('f_email'),company=v('f_company'),city=v('f_city'),msg=v('f_msg');
+  const type=(document.querySelector('input[name="utype"]:checked')||{}).value||'';
+  const err=document.getElementById('fErr');
+  if(!name||!phone||!email||!company){err.style.display='block';return;}
+  err.style.display='none';
+  const sub=encodeURIComponent('Wendz Demo \u2014 '+name+' ('+type+')');
+  const body=encodeURIComponent('New Demo Request\n====================\nName: '+name+'\nPhone: '+phone+'\nEmail: '+email+'\nCompany: '+company+'\nType: '+type+'\nCity: '+(city||'N/A')+'\n\nMessage:\n'+(msg||'None')+'\n====================\nSubmitted via wendz.in');
+  window.location.href='mailto:info.wendz@gmail.com?subject='+sub+'&body='+body;
+  setTimeout(()=>{document.getElementById('fFields').style.display='none';document.getElementById('fSuccess').style.display='block';},800);
+}
 </script>
 </body>
 </html>
