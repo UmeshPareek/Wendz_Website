@@ -1,66 +1,97 @@
-/* ============================================
-   WENDZ — JavaScript
-   ============================================ */
+/* ─────────────────────────────────────────
+   WENDZ — Precision Retail Media
+   script.js
+───────────────────────────────────────── */
 
-/* --- CUSTOM CURSOR --- */
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+/* ─── CURSOR ────────────────────────────── */
+const cur  = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
 
-document.addEventListener('mousemove', (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursor.style.left = mouseX + 'px';
-  cursor.style.top = mouseY + 'px';
+document.addEventListener('mousemove', function(e) {
+  mx = e.clientX;
+  my = e.clientY;
+  cur.style.left = mx + 'px';
+  cur.style.top  = my + 'px';
 });
 
-function animateRing() {
-  ringX += (mouseX - ringX) * 0.12;
-  ringY += (mouseY - ringY) * 0.12;
-  ring.style.left = ringX + 'px';
-  ring.style.top = ringY + 'px';
-  requestAnimationFrame(animateRing);
-}
-animateRing();
+(function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(animRing);
+})();
 
-// Cursor hover effects
-document.querySelectorAll('a, button, .step, .location-card').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.transform = 'translate(-50%, -50%) scale(2)';
-    ring.style.transform = 'translate(-50%, -50%) scale(1.5)';
-    ring.style.borderColor = 'rgba(245,166,35,0.8)';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-    ring.style.transform = 'translate(-50%, -50%) scale(1)';
-    ring.style.borderColor = 'rgba(245,166,35,0.5)';
-  });
+/* ─── PRELOADER ─────────────────────────── */
+var pre = document.getElementById('preloader');
+var bar = document.getElementById('pre-bar');
+var pct = document.getElementById('pre-pct');
+var p   = 0;
+
+var iv = setInterval(function() {
+  p = Math.min(p + Math.random() * 18, 100);
+  bar.style.width  = p + '%';
+  pct.textContent  = Math.floor(p) + '%';
+
+  if (p >= 100) {
+    clearInterval(iv);
+    setTimeout(function() {
+      pre.classList.add('hidden');
+
+      /* stagger-reveal the 4 hero headlines */
+      ['h1', 'h2', 'h3', 'h4'].forEach(function(id, i) {
+        setTimeout(function() {
+          var el = document.getElementById(id);
+          if (el) el.classList.add('visible');
+        }, i * 120);
+      });
+
+    }, 300);
+  }
+}, 60);
+
+/* ─── NAV SCROLL ────────────────────────── */
+window.addEventListener('scroll', function() {
+  var nav = document.getElementById('nav');
+  if (nav) nav.classList.toggle('scrolled', window.scrollY > 60);
 });
 
-/* --- NAV SCROLL EFFECT --- */
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
-});
+/* ─── SCROLL REVEAL ─────────────────────── */
+var revEls = document.querySelectorAll('.reveal');
 
-/* --- SCROLL REVEAL ANIMATIONS --- */
-const reveals = document.querySelectorAll('.reveal');
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
     }
   });
-}, {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
+}, { threshold: 0.07, rootMargin: '0px 0px -32px 0px' });
+
+revEls.forEach(function(el) { obs.observe(el); });
+
+/* safety fallback — reveal everything after 3 s */
+setTimeout(function() {
+  revEls.forEach(function(el) { el.classList.add('visible'); });
+}, 3000);
+
+/* ─── SMOOTH SCROLL ─────────────────────── */
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    var target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
 });
 
-reveals.forEach(el => revealObserver.observe(el));
-
-/* --- CONTACT FORM --- */
-document.getElementById('contactForm').addEventListener('submit', (e) => {
+/* ─── FORM ──────────────────────────────── */
+function handleForm(e) {
   e.preventDefault();
-  document.getElementById('contactForm').style.display = 'none';
-  document.getElementById('formSuccess').style.display = 'block';
-});
+  var form    = document.getElementById('contact-form');
+  var success = document.getElementById('fsuccess');
+  if (form)    form.style.display    = 'none';
+  if (success) success.style.display = 'block';
+}
